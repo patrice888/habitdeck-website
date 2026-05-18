@@ -13,6 +13,26 @@
     .nav-logo-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--purple); }
     .back { color: var(--muted); text-decoration: none; font-size: 14px; }
     .back:hover { color: var(--text); }
+
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; flex-wrap: wrap; background: rgba(8,8,8,0.85); backdrop-filter: blur(20px); }
+    body { padding-top: 72px; }
+    .nav-hamburger { display: none; background: transparent; border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 20px; width: 40px; height: 40px; cursor: pointer; line-height: 1; flex-shrink: 0; align-items: center; justify-content: center; transition: border-color 0.2s, background 0.2s; }
+    .nav-hamburger:hover { border-color: rgba(124,58,237,0.4); background: rgba(124,58,237,0.08); }
+    .nav-mobile-menu { display: none; flex-direction: column; width: 100%; flex-basis: 100%; overflow: hidden; max-height: 0; transition: max-height 0.35s cubic-bezier(0.22, 1, 0.36, 1), padding 0.35s ease; padding: 0; }
+    .nav-mobile-menu.open { max-height: 320px; padding: 4px 0 12px; }
+    .nav-mobile-menu a { display: block; padding: 14px 0; color: var(--muted); text-decoration: none; font-size: 15px; border-bottom: 1px solid var(--border); transition: color 0.2s; }
+    .nav-mobile-menu a:last-child { border-bottom: none; }
+    .nav-mobile-menu a:hover { color: var(--text); }
+    .nav-mobile-kofi { color: var(--purple-light); }
+    .nav-mobile-download { margin-top: 8px; background: var(--purple); color: white; text-align: center; border-radius: 100px; padding: 14px 20px; border-bottom: none; font-weight: 500; }
+    .nav-mobile-download:hover { color: white; opacity: 0.9; }
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      .back { display: none; }
+      .nav-hamburger { display: flex; }
+      .nav-mobile-menu { display: flex; }
+    }
+
     .content { max-width: 720px; margin: 0 auto; padding: 80px 40px; }
     .content h1 { font-family: var(--font-sans); font-size: 48px; font-weight: 800; margin-bottom: 8px; }
     .updated { color: var(--muted); font-size: 14px; margin-bottom: 64px; }
@@ -27,9 +47,17 @@
   </style>
 </head>
 <body>
-<nav>
+<nav id="site-nav">
   <a href="index.html" class="nav-logo"><div class="nav-logo-dot"></div>HabitDeck</a>
   <a href="index.html" class="back">← Back to home</a>
+  <button type="button" class="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-mobile-menu">☰</button>
+  <div class="nav-mobile-menu" id="nav-mobile-menu">
+    <a href="index.html#features">Features</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="support.html">Support</a>
+    <a href="https://ko-fi.com" class="nav-mobile-kofi" target="_blank" rel="noopener noreferrer">♥ Support HabitDeck</a>
+    <a href="index.html#download" class="nav-mobile-download">Download</a>
+  </div>
 </nav>
 
 <div class="content">
@@ -76,5 +104,28 @@
 </div>
 
 <footer>© 2026 HabitDeck. All rights reserved.</footer>
+
+<script>
+(function () {
+  var nav = document.getElementById('site-nav');
+  if (!nav) return;
+  var btn = nav.querySelector('.nav-hamburger');
+  var menu = nav.querySelector('.nav-mobile-menu');
+  if (!btn || !menu) return;
+  function closeMenu() {
+    menu.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.textContent = '☰';
+  }
+  btn.addEventListener('click', function () {
+    var open = menu.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    btn.textContent = open ? '✕' : '☰';
+  });
+  menu.querySelectorAll('a').forEach(function (link) {
+    link.addEventListener('click', closeMenu);
+  });
+})();
+</script>
 </body>
 </html>
