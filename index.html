@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HabitDeck — Track the skills that matter</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -17,6 +15,7 @@
       --text: #f0eeff;
       --muted: #444450;
       --border: #1a1a20;
+      --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     }
 
     html { scroll-behavior: smooth; }
@@ -24,7 +23,7 @@
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--font-sans);
       overflow-x: hidden;
     }
 
@@ -39,8 +38,8 @@
     }
 
     .nav-logo {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
+      font-family: var(--font-sans);
+      font-weight: 700;
       font-size: 20px;
       color: var(--text);
       text-decoration: none;
@@ -120,11 +119,11 @@
     }
 
     h1 {
-      font-family: 'Syne', sans-serif;
+      font-family: var(--font-sans);
       font-size: clamp(48px, 8vw, 96px);
-      font-weight: 800;
-      line-height: 1.0;
-      letter-spacing: -3px;
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.04em;
       margin-bottom: 24px;
       animation: fadeUp 0.6s 0.1s ease both;
     }
@@ -167,57 +166,327 @@
     }
     .btn-secondary:hover { color: var(--text); }
 
-    /* PHONE MOCKUP */
+    /* PHONE MOCKUP — iPhone 15 Pro */
     .phone-wrap {
       margin-top: 80px;
       position: relative;
-      animation: fadeUp 0.8s 0.4s ease both;
+      perspective: 1200px;
+      animation: phoneEnter 1s 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
 
-    .phone {
-      width: 280px;
-      background: #0c0c0f;
-      border-radius: 44px;
-      border: 6px solid #1a1a20;
-      padding: 20px 16px 80px;
+    .phone-float {
+      animation: phoneFloat 5s ease-in-out 1.35s infinite;
+    }
+
+    .iphone {
+      width: 300px;
+      padding: 11px;
+      border-radius: 56px;
+      background: linear-gradient(160deg, #5c5c60 0%, #3a3a3e 18%, #252528 45%, #1a1a1d 100%);
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.1) inset,
+        0 1px 0 rgba(255,255,255,0.15) inset,
+        0 50px 100px -24px rgba(0,0,0,0.85),
+        0 24px 48px -12px rgba(0,0,0,0.5),
+        0 0 80px rgba(124,58,237,0.12);
       position: relative;
-      box-shadow: 0 40px 120px rgba(0,0,0,0.8), 0 0 60px rgba(124,58,237,0.1);
     }
 
-    .phone-notch {
-      width: 80px; height: 28px;
-      background: #0c0c0f;
-      border-radius: 0 0 20px 20px;
-      margin: 0 auto 16px;
-      border: 6px solid #1a1a20;
-      border-top: none;
+    .iphone::before,
+    .iphone::after {
+      content: '';
+      position: absolute;
+      background: linear-gradient(180deg, #4a4a4e, #2e2e32);
+      border-radius: 2px;
+      z-index: 2;
+    }
+
+    .iphone::before {
+      right: -2px;
+      top: 118px;
+      width: 3px;
+      height: 52px;
+      box-shadow: 0 68px 0 #3a3a3e;
+    }
+
+    .iphone::after {
+      left: -2px;
+      top: 88px;
+      width: 3px;
+      height: 32px;
+      box-shadow: 0 44px 0 #3a3a3e, 0 88px 0 #3a3a3e;
+    }
+
+    .iphone-screen {
+      border-radius: 46px;
+      background: #000;
+      overflow: hidden;
+      position: relative;
+      aspect-ratio: 393 / 852;
+    }
+
+    .screen-shine {
+      position: absolute;
+      inset: 0;
+      z-index: 30;
+      pointer-events: none;
+      border-radius: 46px;
+      background: linear-gradient(
+        115deg,
+        rgba(255,255,255,0.14) 0%,
+        rgba(255,255,255,0.04) 22%,
+        transparent 42%,
+        transparent 100%
+      );
+    }
+
+    .screen-reflection {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 35%;
+      z-index: 29;
+      pointer-events: none;
+      border-radius: 0 0 46px 46px;
+      background: linear-gradient(to top, rgba(255,255,255,0.03), transparent);
+    }
+
+    .dynamic-island {
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 102px;
+      height: 30px;
+      background: #000;
+      border-radius: 20px;
+      z-index: 25;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.06);
+    }
+
+    .dynamic-island::after {
+      content: '';
+      position: absolute;
+      right: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #1a2540, #0a0a12);
+      box-shadow: inset 0 0 2px rgba(80,120,200,0.4);
+    }
+
+    .app-ui {
+      padding: 52px 0 0;
+      height: 100%;
+      background: #000;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .app-content {
+      flex: 1;
+      min-height: 0;
+      padding: 0 14px;
+      overflow: hidden;
     }
 
     .phone-header {
-      display: flex; justify-content: space-between; align-items: flex-end;
-      margin-bottom: 16px;
+      margin-bottom: 10px;
     }
 
-    .phone-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; }
-    .phone-date { font-size: 11px; color: #444; }
+    .phone-title {
+      font-family: var(--font-sans);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: #fff;
+    }
+
+    .phone-date {
+      margin-top: 3px;
+      font-size: 11px;
+      color: #666;
+      font-weight: 400;
+      letter-spacing: 0.01em;
+    }
+
+    .phone-stats {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .phone-stat-value {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #fff;
+      line-height: 1.2;
+    }
+
+    .phone-stat-label {
+      margin-top: 2px;
+      font-size: 7.5px;
+      font-weight: 600;
+      color: #555;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .phone-tab-bar {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-around;
+      flex-shrink: 0;
+      padding: 8px 4px 24px;
+      background: #0a0a0a;
+      border-top: 0.5px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .tab-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 3px;
+      flex: 1;
+      min-width: 0;
+      padding-bottom: 2px;
+      color: #666;
+    }
+
+    .tab-item.active {
+      color: #8b5cf6;
+    }
+
+    .tab-icon {
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tab-icon svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.75;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .tab-icon svg rect {
+      fill: currentColor;
+      stroke: none;
+    }
+
+    .tab-item.active .tab-icon svg {
+      stroke-width: 2;
+    }
+
+    .tab-label {
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+    }
+
+    .tab-item--fab {
+      flex: 0 0 auto;
+      padding-bottom: 0;
+      margin: 0 2px;
+    }
+
+    .tab-fab {
+      width: 46px;
+      height: 46px;
+      margin-top: -20px;
+      margin-bottom: 2px;
+      border-radius: 50%;
+      background: #8b5cf6;
+      box-shadow:
+        0 4px 16px rgba(139, 92, 246, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+
+    .tab-fab svg {
+      width: 22px;
+      height: 22px;
+      fill: none;
+      stroke: #fff;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+    }
 
     .habit-card {
-      background: #141414;
+      background: #141416;
       border-radius: 14px;
-      padding: 12px;
-      margin-bottom: 8px;
-      border: 0.5px solid #1e1e1e;
+      padding: 10px 11px;
+      margin-bottom: 6px;
+      border: 0.5px solid rgba(255,255,255,0.06);
     }
 
     .habit-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
     .habit-left { display: flex; align-items: center; gap: 8px; }
-    .habit-dot { width: 8px; height: 8px; border-radius: 50%; }
-    .habit-name { font-size: 13px; font-weight: 600; }
-    .habit-check { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; }
+    .habit-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .habit-name { font-size: 13px; font-weight: 600; letter-spacing: -0.01em; }
+    .habit-check {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: 1.5px solid #2a2a2e;
+      background: transparent;
+    }
+
+    .habit-check.done {
+      border: none;
+      background: #8b5cf6;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+    }
 
     .grid-wrap { display: flex; gap: 2px; }
     .grid-col { display: flex; flex-direction: column; gap: 2px; }
-    .grid-cell { width: 9px; height: 9px; border-radius: 2px; }
+    .grid-cell { width: 8px; height: 8px; border-radius: 2px; }
+
+    .home-indicator {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 110px;
+      height: 4px;
+      background: rgba(255,255,255,0.22);
+      border-radius: 100px;
+      z-index: 25;
+    }
+
+    @keyframes phoneEnter {
+      from { opacity: 0; transform: translateY(48px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes phoneFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
 
     /* FEATURES */
     .features {
@@ -235,11 +504,11 @@
     }
 
     .section-title {
-      font-family: 'Syne', sans-serif;
+      font-family: var(--font-sans);
       font-size: clamp(32px, 5vw, 56px);
-      font-weight: 800;
+      font-weight: 700;
       line-height: 1.1;
-      letter-spacing: -2px;
+      letter-spacing: -0.03em;
       margin-bottom: 64px;
     }
 
@@ -268,7 +537,7 @@
     }
 
     .feature-title {
-      font-family: 'Syne', sans-serif;
+      font-family: var(--font-sans);
       font-size: 20px;
       font-weight: 700;
       margin-bottom: 10px;
@@ -315,8 +584,8 @@
       border-radius: 100px;
     }
 
-    .plan-name { font-family: 'Syne', sans-serif; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
-    .plan-price { font-family: 'Syne', sans-serif; font-size: 48px; font-weight: 800; margin-bottom: 4px; }
+    .plan-name { font-family: var(--font-sans); font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+    .plan-price { font-family: var(--font-sans); font-size: 48px; font-weight: 700; margin-bottom: 4px; }
     .plan-price span { font-size: 18px; font-weight: 400; color: var(--muted); }
     .plan-desc { color: var(--muted); font-size: 14px; margin-bottom: 32px; }
 
@@ -365,9 +634,22 @@
       nav { padding: 16px 20px; }
       .nav-links { display: none; }
       .hero { padding: 100px 20px 60px; }
+      .phone-wrap { margin-top: 56px; }
+      .iphone { width: 268px; padding: 9px; border-radius: 50px; }
+      .iphone-screen { border-radius: 42px; }
+      .screen-shine, .screen-reflection { border-radius: 42px; }
       .features, .pricing { padding: 80px 20px; }
       .pricing-cards { grid-template-columns: 1fr; }
       footer { flex-direction: column; gap: 24px; text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .phone-wrap,
+      .phone-float,
+      .hero-badge,
+      h1,
+      .hero-sub,
+      .hero-ctas { animation: none; }
     }
   </style>
 </head>
@@ -380,7 +662,6 @@
   </a>
   <div class="nav-links">
     <a href="#features">Features</a>
-    <a href="#pricing">Pricing</a>
     <a href="privacy.html">Privacy</a>
     <a href="support.html">Support</a>
     <a href="#download" class="btn-download">Download</a>
@@ -410,47 +691,82 @@
 
   <!-- Phone mockup -->
   <div class="phone-wrap">
-    <div class="phone">
-      <div class="phone-notch"></div>
-      <div class="phone-header">
-        <div>
-          <div class="phone-date">Monday, 18 May</div>
-          <div class="phone-title">Patrice Dashboard</div>
-        </div>
-      </div>
+    <div class="phone-float">
+      <div class="iphone">
+        <div class="iphone-screen">
+          <div class="dynamic-island"></div>
+          <div class="screen-shine"></div>
+          <div class="screen-reflection"></div>
+          <div class="app-ui">
+            <div class="app-content">
+            <div class="phone-header">
+              <div class="phone-title">Dashboard</div>
+              <div class="phone-date">Monday, 18 May</div>
+            </div>
 
-      <!-- Habit cards -->
-      <div class="habit-card">
-        <div class="habit-top">
-          <div class="habit-left">
-            <div class="habit-dot" style="background:#7eaaf5"></div>
-            <div class="habit-name">Piano</div>
-          </div>
-          <div class="habit-check" style="background:#7eaaf5">✓</div>
-        </div>
-        <div class="grid-wrap" id="grid1"></div>
-      </div>
+            <div class="phone-stats">
+              <div>
+                <div class="phone-stat-value">2/4</div>
+                <div class="phone-stat-label">DONE</div>
+              </div>
+              <div>
+                <div class="phone-stat-value">39%</div>
+                <div class="phone-stat-label">THIS WEEK</div>
+              </div>
+              <div>
+                <div class="phone-stat-value">8</div>
+                <div class="phone-stat-label">TOTAL HOURS</div>
+              </div>
+            </div>
 
-      <div class="habit-card">
-        <div class="habit-top">
-          <div class="habit-left">
-            <div class="habit-dot" style="background:#7ef5b0"></div>
-            <div class="habit-name">Gym</div>
-          </div>
-          <div class="habit-check" style="background:#7ef5b0">✓</div>
-        </div>
-        <div class="grid-wrap" id="grid2"></div>
-      </div>
+            <div class="habit-card">
+              <div class="habit-top">
+                <div class="habit-left">
+                  <div class="habit-dot" style="background:#6ea8ff"></div>
+                  <div class="habit-name">Study</div>
+                </div>
+                <div class="habit-check"></div>
+              </div>
+              <div class="grid-wrap" id="grid1"></div>
+            </div>
 
-      <div class="habit-card">
-        <div class="habit-top">
-          <div class="habit-left">
-            <div class="habit-dot" style="background:#f5a97e"></div>
-            <div class="habit-name">Trading</div>
+            <div class="habit-card">
+              <div class="habit-top">
+                <div class="habit-left">
+                  <div class="habit-dot" style="background:#5ecf8a"></div>
+                  <div class="habit-name">Workout</div>
+                </div>
+                <div class="habit-check"></div>
+              </div>
+              <div class="grid-wrap" id="grid2"></div>
+            </div>
+
+            <div class="habit-card">
+              <div class="habit-top">
+                <div class="habit-left">
+                  <div class="habit-dot" style="background:#f0a060"></div>
+                  <div class="habit-name">Chess</div>
+                </div>
+                <div class="habit-check done">✓</div>
+              </div>
+              <div class="grid-wrap" id="grid3"></div>
+            </div>
+
+            <div class="habit-card">
+              <div class="habit-top">
+                <div class="habit-left">
+                  <div class="habit-dot" style="background:#e87eb0"></div>
+                  <div class="habit-name">Deepwork</div>
+                </div>
+                <div class="habit-check done">✓</div>
+              </div>
+              <div class="grid-wrap" id="grid4"></div>
+            </div>
+            </div>
+
           </div>
-          <div class="habit-check" style="border: 1.5px solid #2a2a2a"></div>
+          <div class="home-indicator"></div>
         </div>
-        <div class="grid-wrap" id="grid3"></div>
       </div>
     </div>
   </div>
@@ -495,40 +811,6 @@
   </div>
 </section>
 
-<!-- PRICING -->
-<section class="pricing" id="pricing">
-  <div class="section-label">Pricing</div>
-  <h2 class="section-title">Simple, honest pricing.</h2>
-
-  <div class="pricing-cards">
-    <div class="pricing-card">
-      <div class="plan-name">Free</div>
-      <div class="plan-price">$0</div>
-      <div class="plan-desc">Everything you need to get started.</div>
-      <ul class="plan-features">
-        <li>Up to 4 habits</li>
-        <li>Up to 3 goals</li>
-        <li>Full stats & insights</li>
-        <li>Export & import data</li>
-        <li>No account required</li>
-      </ul>
-    </div>
-    <div class="pricing-card featured">
-      <div class="featured-badge">Most popular</div>
-      <div class="plan-name">Pro</div>
-      <div class="plan-price">$1.99 <span>/ month</span></div>
-      <div class="plan-desc">Or $39 lifetime — one time.</div>
-      <ul class="plan-features">
-        <li>Unlimited habits & goals</li>
-        <li>Home screen widgets</li>
-        <li>Goal widgets</li>
-        <li>Everything in Free</li>
-        <li>Support indie development</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
 <!-- PRIVACY CALLOUT -->
 <section class="privacy-section">
   <div class="section-label">Privacy</div>
@@ -543,6 +825,7 @@
     <a href="privacy.html">Privacy Policy</a>
     <a href="terms.html">Terms of Use</a>
     <a href="support.html">Support</a>
+    <a href="https://instagram.com/habitdeck" target="_blank" rel="noopener noreferrer">@habitdeck</a>
   </div>
 </footer>
 
@@ -562,9 +845,10 @@
       wrap.appendChild(col);
     }
   }
-  makeGrid('grid1', '#7eaaf5', 0.25);
-  makeGrid('grid2', '#7ef5b0', 0.2);
-  makeGrid('grid3', '#f5a97e', 0.45);
+  makeGrid('grid1', '#6ea8ff', 0.52);
+  makeGrid('grid2', '#5ecf8a', 0.48);
+  makeGrid('grid3', '#f0a060', 0.58);
+  makeGrid('grid4', '#e87eb0', 0.55);
 </script>
 </body>
 </html>
