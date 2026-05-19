@@ -909,6 +909,22 @@
 </footer>
 
 <script>
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+
+  if (location.hash) {
+    history.replaceState(null, document.title, location.pathname + location.search);
+  }
+  window.scrollTo(0, 0);
+
+  window.onload = function () {
+    if (location.hash) {
+      history.replaceState(null, document.title, location.pathname + location.search);
+    }
+    window.scrollTo(0, 0);
+  };
+
   // Generate grids
   function makeGrid(id, color, density) {
     const wrap = document.getElementById(id);
